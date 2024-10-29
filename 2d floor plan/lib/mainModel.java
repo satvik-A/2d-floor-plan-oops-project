@@ -35,7 +35,8 @@ class mainModel {
         panelSIDE1.setPreferredSize(new Dimension(150, 100));
         panelSIDE.add(panelSIDE1, BorderLayout.NORTH);
         //
-
+// inside action listener for side panal object creator like creation of new rooms
+        
         JPanel panelSIDE2 = new JPanel();
         panelSIDE2.setBackground(Color.CYAN);
         panelSIDE2.setPreferredSize(new Dimension(150, 100));
