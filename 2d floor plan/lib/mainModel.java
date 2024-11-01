@@ -2,6 +2,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 class mainModel {
@@ -25,6 +26,9 @@ class mainModel {
         paneltop.setBackground(Color.BLACK);
         paneltop.setPreferredSize(new Dimension(100, 100));
         m.f.add(paneltop, BorderLayout.NORTH);
+        // layout = = grid layout
+        paneltop.setLayout(new GridLayout(0, 10, 3, 3));
+        // for horizontal buttons
 
         // DRAWING BORD /
         JPanel panelDB = new JPanel();
