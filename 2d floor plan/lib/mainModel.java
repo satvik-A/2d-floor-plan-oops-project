@@ -1,4 +1,3 @@
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,16 +6,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 class mainModel {
 
     frame f;
+    RoomObjects o;
+    rooms room;
 
     public static void main(String[] args) {
         mainModel m = new mainModel();
         m.f = new frame();
         m.f.setLayout(new BorderLayout());
+
+        m.o = new RoomObjects();
+
+        m.room = new rooms();
 
         // SIDE PANNEL / SIDEBAR
         JPanel panelSIDE = new JPanel();
@@ -42,10 +48,10 @@ class mainModel {
         String[] s1 = { "ADD A ROOM", "DragAndDrop", "FromPreviousROOM" };
         JComboBox<String> room = new JComboBox<>(s1);
 
-        String[] s2 = { "ADD A FURNITURE", "Bed", "Table", "Sofa", "Chair", "Wardrobe", "Desk", "TV", "Shelf" };
+        String[] s2 = { "ADD A FURNITURE", "Bed", "Table", "Sofa", "Chair", "diningSet" };
         JComboBox<String> furniture = new JComboBox<>(s2);
 
-        String[] s3 = { "ADD A FIXTURES", "Commode", "Sink", "Shower", "Cupboard", "Bathtub", "Fridge" };
+        String[] s3 = { "ADD A FIXTURES", "Commode", "Sink", "Shower", "stove", "Washbasin", "Fridge" };
         JComboBox<String> fixtures = new JComboBox<>(s3);
 
         paneltop.add(room);
@@ -53,6 +59,26 @@ class mainModel {
         paneltop.add(window);
         paneltop.add(furniture);
         paneltop.add(fixtures);
+
+        // DRAWING BORD /
+        JPanel panelDB = new JPanel();
+        panelDB.setBackground(Color.BLUE);
+        panelDB.setPreferredSize(new Dimension(100, 100));
+        m.f.add(panelDB, BorderLayout.CENTER);
+
+        //
+        JPanel panelSIDE1 = new JPanel();
+        panelSIDE1.setBackground(Color.RED);
+        panelSIDE1.setPreferredSize(new Dimension(150, 100));
+        panelSIDE.add(panelSIDE1);
+        //
+
+        //
+        JPanel panelSIDE4 = new JPanel();
+        panelSIDE4.setBackground(Color.BLACK);
+        panelSIDE4.setPreferredSize(new Dimension(150, 100));
+        panelSIDE.add(panelSIDE4, BorderLayout.SOUTH);
+        //
 
         // Add action listener for the room combo box
         room.addActionListener(new ActionListener() {
@@ -64,6 +90,10 @@ class mainModel {
                 if ("DragAndDrop".equals(selectedRoom)) {
                     System.out.println("DragAndDrop option selected for Room");
                     // Add specific action here for "DragAndDrop"
+                    JPanel proom = new JPanel();
+                    proom = m.room.rooms();
+                    panelDB.add(proom);
+                    panelDB.setVisible(true);
 
                 } else if ("FromPreviousROOM".equals(selectedRoom)) {
                     System.out.println("FromPreviousROOM option selected for Room");
@@ -72,6 +102,15 @@ class mainModel {
             }
         });
 
+        door.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                System.out.println("Selected door: ");
+            }
+        });
+
+        // action listeners for funiture combobox
         furniture.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,34 +119,39 @@ class mainModel {
                     case "Bed":
                         System.out.println("Bed selected");
                         // Add specific action for Bed
+                        JLabel lbed = new JLabel();
+                        lbed = m.o.Bed();
+                        panelDB.add(lbed);
+
                         break;
                     case "Table":
                         System.out.println("Table selected");
                         // Add specific action for Table
+                        JLabel ptable = new JLabel();
+                        ptable = m.o.Table();
+                        panelDB.add(ptable);
+
                         break;
                     case "Sofa":
                         System.out.println("Sofa selected");
                         // Add specific action for Sofa
+                        JLabel psofa = new JLabel();
+                        psofa = m.o.Sofa();
+                        panelDB.add(psofa);
+                        break;
+                    case "diningSet":
+                        System.out.println("diningSet selected");
+                        // Add specific action for diningSet
+                        JLabel pDiningset = new JLabel();
+                        pDiningset = m.o.diningSet();
+                        panelDB.add(pDiningset);
                         break;
                     case "Chair":
-                        System.out.println("Sofa selected");
-                        // Add specific action for Sofa
-                        break;
-                    case "Wardrobe":
-                        System.out.println("Wardrobe selected");
-                        // Add specific action for Wardrobe
-                        break;
-                    case "Desk":
-                        System.out.println("Desk selected");
-                        // Add specific action for Desk
-                        break;
-                    case "TV":
-                        System.out.println("TV selected");
-                        // Add specific action for TV
-                        break;
-                    case "Shelf":
-                        System.out.println("Shelf selected");
-                        // Add pecific action for shelf
+                        System.out.println("Chair selected");
+                        // Add specific action for Chair
+                        JLabel pchair = new JLabel();
+                        pchair = m.o.Chair();
+                        panelDB.add(pchair);
                         break;
                     // Add more cases as needed for other furniture items
                     default:
@@ -136,6 +180,19 @@ class mainModel {
                         System.out.println("Shower selected");
                         // Add specific action for Shower
                         break;
+                    case "stove":
+                        System.out.println("stove selected");
+                        // Add specific action for stove
+                        break;
+                    case "Washbasin":
+                        System.out.println("Washbasin selected");
+                        // Add specific action for Washbasin
+                        break;
+                    case "Fridge":
+                        System.out.println("Fridge selected");
+                        // Add specific action for Fridge
+                        break;
+
                     // Add more cases as needed for other fixtures
                     default:
                         System.out.println("No specific fixture selected");
@@ -145,26 +202,8 @@ class mainModel {
         });
 
         paneltop.setVisible(true);
+        panelDB.setVisible(true);
 
-        // DRAWING BORD /
-        JPanel panelDB = new JPanel();
-        panelDB.setBackground(Color.BLUE);
-        panelDB.setPreferredSize(new Dimension(100, 100));
-        m.f.add(panelDB, BorderLayout.CENTER);
-
-        //
-        JPanel panelSIDE1 = new JPanel();
-        panelSIDE1.setBackground(Color.RED);
-        panelSIDE1.setPreferredSize(new Dimension(150, 100));
-        panelSIDE.add(panelSIDE1);
-        //
-
-        //
-        JPanel panelSIDE4 = new JPanel();
-        panelSIDE4.setBackground(Color.BLACK);
-        panelSIDE4.setPreferredSize(new Dimension(150, 100));
-        panelSIDE.add(panelSIDE4, BorderLayout.SOUTH);
-        //
         paneltop.setVisible(true);
         panelSIDE.setVisible(true);
         m.f.setVisible(true);
