@@ -8,50 +8,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+public class FloorPlanner implements Serializable {
 
-public class data implements Serializable{
-    private String name;
-    private int x, y, width, height;
-    public data(int x, int y, int width, int height, String name) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-    public String getName() {
-        return name;
+    // Declare the ArrayList to store rooms
+    private ArrayList<rooms> rooms;
+
+    // Constructor to initialize the list
+    public FloorPlanner() {
+        rooms = new ArrayList<>();
     }
 
-    public double getHeight(){
-        return height;
+    // Getter for the room list
+    public ArrayList<rooms> getRoomList() {
+        return rooms;
     }
 
-    public double getWidth() {
-        return width;
+    // Add a room to the list
+    public void addRoom(rooms room) {
+        rooms.add(room);
     }
 
-    public int getXCoordinate() {
-        return x;
-    }
-
-    public int getYCoordinate() {
-        return y;
-    }
-
-    @Override
-    public String toString() {
-        return "Room{name='" + name + "', height=" + height + ", width=" + width +
-               ", x=" + x + ", y=" + y + "}";
-    }
-    List<rooms> rooms = new ArrayList<>();
-    public class FloorPlanner{
-        public void file(){
+    public void file() {
         // List to hold room objects
-        
-        
+
         // Add sample rooms
-        
 
         // File to store serialized data
         String filename = "floor_plan.ser";
@@ -75,7 +55,4 @@ public class data implements Serializable{
             System.err.println("Error during deserialization: " + e.getMessage());
         }
     }
-    }
-
-    
 }

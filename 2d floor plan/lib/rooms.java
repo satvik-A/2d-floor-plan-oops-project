@@ -3,18 +3,16 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;import javax.swing.JTextField;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class rooms {
+    FloorPlanner f;
     String name;
     int x, y, width, height;
 
@@ -33,28 +31,30 @@ public class rooms {
                 this.y >= other.y + other.height); // this room is below other
     }
 
-    List<rooms> rooms = new ArrayList<>();
-    public boolean addRoom(int x, int y, int width, int height) {
-        rooms newRoom = new rooms(x, y, width, height, name);
+    // public boolean addRoom(int x, int y, int width, int height) {
 
-        // Check for overlaps with existing rooms
-        for (rooms rooms : rooms) {
-            if (rooms.overlaps(newRoom)) {
-                return false; // Room overlaps, can't add it
-            }
-        }
+    // rooms newRoom = new rooms(x, y, width, height, name);
 
-        // No overlap, add room to the roster
-        rooms.add(newRoom);
-        return true;
-    }
+    // // Check for overlaps with existing rooms
+    // f = new FloorPlanner();
+    // for (rooms rooms : rooms) {
+    // if (rooms.overlaps(newRoom)) {
+    // return false; // Room overlaps, can't add it
+    // }
+    // }
 
-    public void getData(int x,int y,int length,int height){
-       
+    // // No overlap, add room to the roster
+    // rooms.add(newRoom);
+    // return true;
+    // }
+
+    public void getData(int x, int y, int length, int height) {
 
     }
 
     Boolean ea = false;
+
+    FloorPlanner manager = new FloorPlanner();
 
     public JPanel rooms() {
         System.out.println("This is a room");
@@ -95,14 +95,16 @@ public class rooms {
                     proom.setBounds(Integer.parseInt(tfXroom.getText()), Integer.parseInt(tfYroom.getText()),
                             Integer.parseInt(tfLroom.getText()), Integer.parseInt(tfHroom.getText()));
 
-                    Boolean a ;
-                    int x=0,y=0,l=0,h=0;
+                    Boolean a;
+                    int x = 0, y = 0, l = 0, h = 0;
                     x = Integer.parseInt(tfXroom.getText());
                     y = Integer.parseInt(tfYroom.getText());
                     l = Integer.parseInt(tfLroom.getText());
                     h = Integer.parseInt(tfHroom.getText());
-                    addRoom(x,y,l,h);
-                    
+                    String n = tfroom.getText();
+                    // addRoom(x, y, l, h);
+                    manager.addRoom(new rooms(x, y, l, h, n));
+
                     proom.setVisible(true);
                 } catch (NumberFormatException ex) {
 

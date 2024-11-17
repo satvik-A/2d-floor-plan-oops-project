@@ -55,6 +55,11 @@ class FloorPlanner {
     public List<Room> getRooms() {
         return rooms;
     }
+
+    public void addRoom(rooms rooms2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addRoom'");
+    }
 }
 
 public class FloorPlannerGUI extends JFrame {
