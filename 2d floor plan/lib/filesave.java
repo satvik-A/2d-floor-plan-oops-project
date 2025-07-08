@@ -68,22 +68,6 @@ class filesave {
         return null; // User canceled
     }
 
-    // public void callsavePanels(File file){
-    // savePanels(file, panelroom);
-    // }
-    // Save ArrayList of panels to a file using serialization
-    // public static void savePanels(File file, Array ar) {
-    // try (ObjectOutputStream oos = new ObjectOutputStream(new
-    // FileOutputStream(file))) {
-    // oos.writeObject(ar.roomsave);
-    // oos.writeObject(ar.furnituresave1);
-    // System.out.println("Panels saved to: " + file.getAbsolutePath());
-    // } catch (IOException e) {
-    // System.out.println("Error saving panels: " + e.getMessage());
-    // }
-    // }
-
-    // Load ArrayList of panels from a file using serialization
     public static ArrayList<roomsave> loadPanels(File file) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             @SuppressWarnings("unchecked")
@@ -101,11 +85,11 @@ class filesave {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             @SuppressWarnings("unchecked")
             ArrayList<furnituresave> panelroomf = (ArrayList<furnituresave>) ois.readObject();
-            System.out.println("Panels loaded from: " + file.getAbsolutePath());
+            System.out.println("Labels loaded from: " + file.getAbsolutePath());
 
             return panelroomf;
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error loading panels: " + e.getMessage());
+            System.out.println("Error loading Labels: " + e.getMessage());
             return null;
         }
     }
@@ -117,26 +101,25 @@ class filesave {
             panelDB.removeAll();
             panelDB.revalidate();
             panelDB.repaint();
-            arr.roomsave = loadPanels(loadFile); // loded roomsave array added to roomsave arraylist
+            arr.roomsave = loadPanels(loadFile); // Loaded roomsave array added to roomsave ArrayList
             arr.furnituresave1.clear();
             if (arr.roomsave != null) {
                 for (roomsave panelData : arr.roomsave) {
-
                     panelData.getpanel().setVisible(true);
-                    panelDB.add(panelData.getpanel()); // loded roomsave panel added to panelDB
+                    panelDB.add(panelData.getpanel()); // Loaded roomsave panel added to panelDB
                     panelDB.setVisible(true);
                     panelDB.revalidate();
                     panelDB.repaint();
+
                     panelData.getpanel().addMouseListener(new MouseAdapter() {
                         @Override
                         public void mousePressed(MouseEvent e) {
                             selectedRoom = panelData.getpanel();
                             initialClick = e.getPoint();
                             PrevCoord = ((JPanel) e.getSource()).getLocation();
-
                         }
-
                     });
+
                     panelData.getpanel().addMouseMotionListener(new MouseAdapter() {
                         @Override
                         public void mouseDragged(MouseEvent e) {
@@ -145,27 +128,43 @@ class filesave {
                     });
                 }
             }
+
             arr.furnituresave1 = loadlabels(loadFile);
             if (arr.furnituresave1 != null) {
-                for (furnituresave panelData : arr.furnituresave1) {
-                    arr.addfurniture(panelData);
-                    panelData.getlabel().addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            selectedroom = panelData.getlabel();
-                            initialClick = e.getPoint();
-                            PrevCoord = ((JLabel) e.getSource()).getLocation();
-                        }
-                    });
-                    panelData.getlabel().addMouseMotionListener(new MouseAdapter() {
-                        @Override
-                        public void mouseDragged(MouseEvent e) {
-                            moveRoom(e, (String) panelData.getnameroom());
-                        }
-                    });
-                }
-            }
+                for (Object obj : arr.furnituresave1) {
+                    if (obj instanceof furnituresave) { // Check the type before casting
+                        furnituresave panelData = (furnituresave) obj;
+                        arr.addfurniture(panelData);
 
+                        panelData.getlabel().addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mousePressed(MouseEvent e) {
+                                selectedroom = panelData.getlabel();
+                                initialClick = e.getPoint();
+                                PrevCoord = ((JLabel) e.getSource()).getLocation();
+                            }
+                        });
+
+                        panelData.getlabel().addMouseMotionListener(new MouseAdapter() {
+                            @Override
+                            public void mouseDragged(MouseEvent e) {
+                                moveRoom(e, (String) panelData.getnameroom());
+                            }
+                        });
+
+                        JPanel roomPanel = arr.getRoompanel(panelData.getnameroom());
+                        if (roomPanel != null) {
+                            roomPanel.revalidate();
+                            roomPanel.repaint();
+                        }
+                    } else {
+                        System.out.println("Skipping non-furnituresave object: " + obj.getClass().getName());
+                    }
+                }
+
+                panelDB.revalidate();
+                panelDB.repaint();
+            }
         }
     }
 
@@ -211,7 +210,6 @@ class filesave {
             if (!arr.furnitureOverlapsml(selectedroom, newX, newY, roomname)) {
                 // selectedRoom.setLocation(newX, newY);
             }
-            ;
 
             // Refresh the container to show the updated location
 

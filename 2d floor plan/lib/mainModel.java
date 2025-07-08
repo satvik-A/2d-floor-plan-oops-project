@@ -4,10 +4,15 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 class mainModel {
 
@@ -22,18 +27,69 @@ class mainModel {
         arr = array;
     }
 
+    public void setname(String name) {
+        arr.setfname(name);
+    }
+
+    public void addrnode() {
+
+    }
+
+    public void addfurnnode(){
+        DefaultMutableTreeNode parent1 = new DefaultMutableTreeNode("room");
+    }
+
+    public JTree setnode() {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(arr.getfname());
+        // DefaultMutableTreeNode parent1 = new DefaultMutableTreeNode("room");
+        // DefaultMutableTreeNode parent2 = new DefaultMutableTreeNode("parent2");
+        // DefaultMutableTreeNode child1 = new DefaultMutableTreeNode("child1");
+        // DefaultMutableTreeNode child2 = new DefaultMutableTreeNode("child2");
+        // parent1.add(child1);
+        // parent2.add(child2);
+        // root.add(parent1);
+        // root.add(parent2);
+        JTree tree = new JTree(root);
+        return tree;
+    }
+
     public static void main(String[] args) {
 
         mainModel m = new mainModel();
         m.f = new frame();
+        m.f.setVisible(false);
         m.f.setLayout(new BorderLayout());
 
         // SIDE PANNEL / SIDEBAR
-        JPanel panelSIDE = new JPanel();
-        panelSIDE.setBackground(Color.YELLOW);
-        panelSIDE.setPreferredSize(new Dimension(150, 980));
-        panelSIDE.setLayout(new GridLayout(10, 1, 0, 0));
-        m.f.add(panelSIDE, BorderLayout.WEST);
+        JPanel panelside = new JPanel();
+        panelside.setBackground(Color.BLACK);
+        panelside.setPreferredSize(new Dimension(200, 100));
+        m.f.add(panelside, BorderLayout.WEST);
+
+        String name = new String();
+
+        frame fname = new frame();
+        fname.setSize(400, 400);
+
+        JTextField tfname = new JTextField("Enter the name of the project", 20);
+
+        JButton sub = new JButton("conform name");
+        sub.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                m.setname(tfname.getText());
+                fname.dispose();
+                panelside.add(m.setnode());
+                m.f.setVisible(true);
+            }
+        });
+
+        fname.setLayout(new GridLayout(2, 1, 10, 10));
+
+        fname.add(tfname);
+        fname.add(sub);
+        fname.setVisible(true);
+
+        // new jtree
 
         // INSTRUMENT PANNEL / TOPBAR /
         JPanel paneltop = new JPanel();
@@ -49,8 +105,8 @@ class mainModel {
         JButton window = new JButton("ADD A WINDOW");
 
         // Define ComboBox options
-        String[] s1 = { "ADD A ROOM", "DragAndDrop", "FromPreviousROOM" };
-        JComboBox<String> room = new JComboBox<>(s1);
+
+        JButton room = new JButton("ADD A ROOM");
 
         String[] s2 = { "ADD A FURNITURE", "Bed", "Table", "Sofa", "Chair", "diningSet" };
         JComboBox<String> furniture = new JComboBox<>(s2);
@@ -66,10 +122,11 @@ class mainModel {
 
         // DRAWING BORD /
         JPanel panelDB = new JPanel();
-        panelDB.setBackground(Color.BLUE);
+        panelDB.setBackground(new Color(255, 220, 230));
         panelDB.setPreferredSize(new Dimension(100, 100));
         m.f.add(panelDB, BorderLayout.CENTER);
         panelDB.setLayout(null);
+        //
 
         //
         JButton save = new JButton("save");
@@ -96,12 +153,6 @@ class mainModel {
 
         });
 
-        JPanel panelSIDE1 = new JPanel();
-        panelSIDE1.setBackground(Color.RED);
-        panelSIDE1.setPreferredSize(new Dimension(150, 100));
-        panelSIDE1.add(open);
-        panelSIDE1.add(save);
-        panelSIDE.add(panelSIDE1);
         //
 
         //
@@ -119,56 +170,47 @@ class mainModel {
             }
 
         });
-        JPanel panelSIDE4 = new JPanel();
-        panelSIDE4.add(ClearAll);
-        panelSIDE4.setBackground(Color.BLACK);
-        panelSIDE4.setPreferredSize(new Dimension(150, 100));
-        panelSIDE.add(panelSIDE4);
+        paneltop.add(save);
+        paneltop.add(open);
+        paneltop.add(ClearAll);
+
         //
 
         // Add action listener for the room combo box
         room.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // file f = new file();
-                String selectedRoom = (String) room.getSelectedItem();
-                System.out.println("Selected room: " + selectedRoom);
+                if (!arr.checkOverlaps(m.room.rooms(panelDB))) {
+                    System.out.println("panel is added to paneldb");
+                } else {
 
-                if ("DragAndDrop".equals(selectedRoom)) {
-                    System.out.println("DragAndDrop option selected for Room");
-                    // Add specific action here for "DragAndDrop"
-
-                    // JPanel proom = new JPanel();
-                    // proom =
-                    // String name = proom.getName();
-                    // System.out.println("Room name: " + name);
-
-                    // proom.setVisible(false);
-                    if (!arr.checkOverlaps(m.room.rooms(panelDB))) {
-                        System.out.println("panel is added to paneldb");
-                        // panelDB.add(proom);
-                    } else {
-
-                    }
-
-                    print();
-                    panelDB.revalidate();
-                    panelDB.repaint();
-                    panelDB.setVisible(true);
-
-                } else if ("FromPreviousROOM".equals(selectedRoom)) {
-                    System.out.println("FromPreviousROOM option selected for Room");
-                    // Add specific action here for "FromPreviousROOM"
                 }
+                panelDB.revalidate();
+                panelDB.repaint();
+                panelDB.setVisible(true);
             }
         });
 
         door.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                JLabel ldoor = new JLabel();
+                ldoor = m.o.Door();
+                panelDB.add(ldoor);
                 System.out.println("Selected door: ");
             }
+        });
+
+        window.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabel lwindow = new JLabel();
+                lwindow = m.o.Window();
+                panelDB.add(lwindow);
+                System.out.println("Selected window: ");
+            }
+
         });
 
         // action listeners for funiture combobox
@@ -180,9 +222,9 @@ class mainModel {
                     case "Bed":
                         System.out.println("Bed selected");
                         // Add specific action for Bed
-                        JLabel lbed = new JLabel();
-                        lbed = m.o.Bed();
-                        panelDB.add(lbed);
+                        // JLabel lbed = new JLabel();
+                        // lbed = m.o.Bed();
+                        panelDB.add(m.o.Bed());
                         break;
                     case "Table":
                         System.out.println("Table selected");
@@ -211,7 +253,7 @@ class mainModel {
                         // Add specific action for Chair
                         JLabel pchair = new JLabel();
                         pchair = m.o.Chair();
-                        panelDB.add(pchair);
+                        panelDB.add(m.o.Chair());
                         break;
                     // Add more cases as needed for other furniture items
                     default:
@@ -230,26 +272,44 @@ class mainModel {
                 switch (selectedFixture) {
                     case "Commode":
                         System.out.println("Commode selected");
+                        JLabel pcommode = new JLabel();
+                        pcommode = m.o.Commode();
+                        panelDB.add(pcommode);
                         // Add specific action for Commode
                         break;
                     case "Sink":
                         System.out.println("Sink selected");
+                        JLabel psink = new JLabel();
+                        psink = m.o.Sink();
+                        panelDB.add(psink);
                         // Add specific action for Sink
                         break;
                     case "Shower":
                         System.out.println("Shower selected");
+                        JLabel pshower = new JLabel();
+                        pshower = m.o.Shower();
+                        panelDB.add(pshower);
                         // Add specific action for Shower
                         break;
                     case "stove":
                         System.out.println("stove selected");
+                        JLabel pstove = new JLabel();
+                        pstove = m.o.stove();
+                        panelDB.add(pstove);
                         // Add specific action for stove
                         break;
                     case "Washbasin":
                         System.out.println("Washbasin selected");
+                        JLabel pwashbasin = new JLabel();
+                        pwashbasin = m.o.Washbasin();
+                        panelDB.add(pwashbasin);
                         // Add specific action for Washbasin
                         break;
                     case "Fridge":
                         System.out.println("Fridge selected");
+                        JLabel pfridge = new JLabel();
+                        pfridge = m.o.Fridge();
+                        panelDB.add(pfridge);
                         // Add specific action for Fridge
                         break;
 
@@ -260,22 +320,31 @@ class mainModel {
                 }
             }
         });
+        // if (arr.roomsave.size() > 0) {
+        // JPanel panelside = new JPanel();
+        // panelside.setBackground(new Color(000, 000, 000));
+        // panelside.setPreferredSize(new Dimension(180, 100));
+        // m.f.add(panelside, BorderLayout.WEST);
+        // panelside.setLayout(new BorderLayout());
+        // panelside.setVisible(true);
 
+        // int i = arr.roomsave.size();
+        // String[] roomnames = new String[i];
+        // roomnames = arr.getroomnames();
+        // JComboBox<String> cbroom;
+        // cbroom = new JComboBox(roomnames);
+        // panelside.add(cbroom);
+        // }
         paneltop.setVisible(true);
         panelDB.setVisible(true);
 
-        paneltop.setVisible(true);
-        panelSIDE.setVisible(true);
-        m.f.setVisible(true);
+        // m.f.setVisible(true);
 
     }
+}
 
-    public static void print() {
-        // file f = new file();
-        // String[] s = new String[f.length()];
-        // s = f.getnames();
-        // System.out.println(s);
-
-    }
+class tree1{
+    ArrayList<DefaultMutableTreeNode> tempt = new ArrayList<>() ;
+    
 
 }

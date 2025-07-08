@@ -13,7 +13,13 @@ public class roomsave implements Serializable {
     String type;
     JPanel panel;
 
-    public roomsave(int x, int y, int length, int height, Color c, String name, String type, JPanel panel) {
+    public roomsave(int x,
+
+            int y,
+            int length,
+            int height, Color c,
+            String name, String type,
+            JPanel panel) {
         this.x = x;
         this.y = y;
         this.length = length;
@@ -32,8 +38,8 @@ public class roomsave implements Serializable {
         return length;
     }
 
-    public Color getcolor() {
-        return c;
+    public int getheight() {
+        return height;
     }
 
     public int getx() {
@@ -44,8 +50,8 @@ public class roomsave implements Serializable {
         return y;
     }
 
-    public int getheight() {
-        return height;
+    public Color getcolor() {
+        return c;
     }
 
     public String getname() {
@@ -64,8 +70,24 @@ public class roomsave implements Serializable {
         this.y = y;
     }
 
+    public void setlength(int length) {
+        this.length = length;
+    }
+
+    public void setheight(int height) {
+        this.height = height;
+    }
+
     public void setpanel(JPanel panel) {
         this.panel = panel;
+    }
+
+    public void setcolor(Color c) {
+        this.c = c;
+    }
+
+    public void setname(String name) {
+        this.name = name;
     }
 
     public void updatepanel(JLabel label) {

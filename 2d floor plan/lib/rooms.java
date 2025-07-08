@@ -49,9 +49,9 @@ public class rooms {
 
         JTextField tfYroom = new JTextField("Enter the y position  of the ROOM", 20);
 
-        JTextField tfLroom = new JTextField("Enter the length of the ROOM", 20);
+        JTextField tfLroom = new JTextField("Enter the height of the ROOM", 20);
 
-        JTextField tfHroom = new JTextField("Enter the width of the ROOM", 20);
+        JTextField tfHroom = new JTextField("Enter the length of the ROOM", 20);
 
         String[] Stype = { "Hall", "Kitchen", "bedroom", "bathroom" };
 
@@ -72,8 +72,8 @@ public class rooms {
                 System.out.println("Submit button clicked");
                 proom.setName(tfroom.getText());
                 try {
-                    proom.setBounds(Integer.parseInt(tfXroom.getText()), Integer.parseInt(tfYroom.getText()),
-                            Integer.parseInt(tfLroom.getText()), Integer.parseInt(tfHroom.getText()));
+                    proom.setBounds(Integer.parseInt(tfXroom.getText()) * 50, Integer.parseInt(tfYroom.getText()) * 50,
+                            Integer.parseInt(tfLroom.getText()) * 50, Integer.parseInt(tfHroom.getText()) * 50);
                     // proom.setBackground(Color.decode("#" + type.getSelectedItem()));
                     // f.addPanel(proom);
 
@@ -97,8 +97,8 @@ public class rooms {
                     // System.out.println(f.length());
                     // System.out.println(f.getnames());
 
-                    int panelHeight = Integer.parseInt(tfLroom.getText());
-                    int panelWidth = Integer.parseInt(tfHroom.getText());
+                    int panelHeight = Integer.parseInt(tfLroom.getText()) * 50;
+                    int panelWidth = Integer.parseInt(tfHroom.getText()) * 50;
 
                     proom.addMouseListener(new MouseAdapter() {
                         @Override

@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "mainModel",
+      "request": "launch",
+      "mainClass": "mainModel",
+      "projectName": "2d-floor-plan-oops-project_fcd4f41e"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/aderlasatvik/Downloads/java/practice/src",
+      "program": "/Users/aderlasatvik/Downloads/java/practice/src/build/Debug/outDebug"
+    }
+  ]
+}
